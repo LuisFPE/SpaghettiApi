@@ -1,0 +1,33 @@
+ENDPOINTS POSTMAN:
+
+USER:
+
+-get user ✔️
+-get by property ✔️
+-create user ✔️
+-register ✔️
+-login ✔️
+-update user ✔️
+-delete user ✔️
+
+SPAGHETTI:
+
+-get spaghettis ✔️
+-get by id ✔️
+-create spaghetti ✔️
+-add ingredient to spaghetti
+-remove ingredient to spaghetti
+-update spaghetti ✔️
+-delete spaghetti ✔️
+
+INGREDIENT:
+
+-get ingredient ✔️
+-get by id ✔️
+-create ingredient ✔️
+-update ingredient
+-delete ingredient
+
+
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjRmNDM0ZjM2YzcyNDI2NDZmOWRkZmEiLCJ1c2VybmFtZSI6InVzdWFyaW9BZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNjQ3NTA5NywiZXhwIjoxNzE2NTYxNDk3fQ.HKeDuBFQPfiNo67z9O-CCA7cV1pQzofCU4lVJZazTiU

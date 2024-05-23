@@ -1,0 +1,396 @@
+swagger: '2.0'
+info:
+  title: Spaghetti API
+  description: ENGLISH api for search, read and publish spaghetti recipes. To use all the ednpoints except login and register, it is necessary to authenticate with the token returned by the login. The endpoints of get user, get by property, create user, update user, delete user only work if the user's role is The authentication token belongs to admin, this role is only available to API developers. All spaghetti and ingredients endpoints also need to use the authentication token but these are available to users whose roles are user rather than the default role assigned in the register. ESPAÑOL api para buscar, leer y publicar recetas de espaguetis. Para utilizar todos los ednpoints excepto iniciar sesión y registrarse, es necesario autenticarse con el token devuelto por el inicio de sesión. Los endpoints de obtener usuario, obtener propiedad, crear usuario, actualizar usuario, eliminar usuario solo funcionan si el rol del usuario al que le pertenece el token de autenticación es administrador, esta función solo está disponible para desarrolladores de la api. Todos los endpoints de espagueti e ingredientes también deben usar el token de autenticación, pero están disponibles para los usuarios cuyos roles son usuario que es el rol predeterminado asignado en el registro.
+  version: 1.0.0
+host: localhost:3020
+basePath: /api
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: >-
+      Enter the token with the `Bearer: ` prefix, e.g. "Bearer abcde12345".
+security:
+  - bearerAuth: []
+tags:
+  - name: User
+    description: User management
+  - name: spaghetti
+    description: spaghetti management
+  - name: ingredient
+    description: ingredient management
+paths:
+  /:
+    get:
+      summary: Get API greeting
+      responses:
+        '200':
+          description: Successful response
+  /users:
+    get:
+      summary: Get all users
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create a new user
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Successful response
+  /users/{userId}:
+    get:
+      summary: Get a user by ID
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+    put:
+      summary: Update a user
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Successful response
+    delete:
+      summary: Delete a user
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+  /users/byproperty:
+    get:
+      summary: Get users by property
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: property
+          in: query
+          required: true
+          type: string
+        - name: value
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+  /register:
+    post:
+      summary: Register a new user
+      tags:
+        - User
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Successful response
+  /login:
+    post:
+      summary: Login a user
+      tags:
+        - User
+      parameters:
+        - name: credentials
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Credentials'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Token'
+  /spaghettis:
+    get:
+      summary: Get all spaghettis
+      tags:
+        - spaghetti
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/spaghetti'
+    post:
+      summary: Create a new spaghetti
+      tags:
+        - spaghetti
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: spaghetti
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/spaghetti'
+      responses:
+        '200':
+          description: Successful response
+  /spaghettis/{spaghettiId}:
+    get:
+      summary: Get a spaghetti by ID
+      tags:
+        - spaghetti
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: spaghettiId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/spaghetti'
+    put:
+      summary: Update a spaghetti
+      tags:
+        - spaghetti
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: spaghettiId
+          in: path
+          required: true
+          type: string
+        - name: spaghetti
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/spaghetti'
+      responses:
+        '200':
+          description: Successful response
+    delete:
+      summary: Delete a spaghetti
+      tags:
+        - spaghetti
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: spaghettiId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+  /spaghettis/{spaghettiId}/ingredient:
+    post:
+      summary: Add a ingredient to a spaghetti
+      tags:
+        - spaghetti
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: spaghettiId
+          in: path
+          required: true
+          type: string
+        - name: ingredientId
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              ingredientId:
+                type: string
+      responses:
+        '200':
+          description: Successful response
+
+  /ingredients:
+    get:
+      summary: Get all ingredients
+      tags:
+        - ingredient
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: spaghettiId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ingredient'
+    post:
+      summary: Create a new ingredient
+      tags:
+        - ingredient
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ingredient
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ingredient'
+      responses:
+        '200':
+          description: Successful response
+  /ingredients/{ingredientId}:
+    get:
+      summary: Get a ingredient by ID
+      tags:
+        - ingredient
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ingredientId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ingredient'
+    put:
+      summary: Update a ingredient
+      tags:
+        - ingredient
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ingredientId
+          in: path
+          required: true
+          type: string
+        - name: ingredient
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ingredient'
+      responses:
+        '200':
+          description: Successful response
+    delete:
+      summary: Delete a ingredient
+      tags:
+        - ingredient
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ingredientId
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+definitions:
+  User:
+    type: object
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+        enum:
+          - user
+          - admin
+  Credentials:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  Token:
+    type: object
+    properties:
+      token:
+        type: string
+  spaghetti:
+    type: object
+    properties:
+      name:
+        type: string
+      owner:
+        type: string
+      sauce:
+        type: string
+        enum:
+          - Red
+          - White
+          - Green
+      description:
+        type: string
+      recipe:
+        type: string
+      ingredients:
+        type: array
+        items:
+          type: string
+
+  ingredient:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+
