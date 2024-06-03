@@ -3,8 +3,8 @@ services:
     image: mongo:latest
     restart: unless-stopped
     container_name: ${DB_HOST}
-    ports:
-      - ${DB_PORT}:27017
+    #ports:
+      #- ${DB_PORT}:27017
     volumes:
       - mongo_spaghe:/data/db
     environment:
