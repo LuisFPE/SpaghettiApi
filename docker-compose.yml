@@ -11,7 +11,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
       MONGO_INITDB_DATABASE: ${DB_NAME}  
-
+    networks:
+      - spaghettinetwork
   backend:
     build: .
     container_name: ${APP_HOST}
@@ -21,6 +22,17 @@ services:
     volumes:
       - ./:/app
       - node_modules:/app/node_modules
+    networks:
+      - spaghettinetwork
+      - nginx-proxy
+    environment:
+      VIRTUAL_HOST: spaghettiapi.luispadua.com
+      LETSENCRYPT_HOST: spaghettiapi.luispadua.com
+      LETSENCRYPT_EMAIL: admin@spaghettiapi.luispadua.com
 volumes:
   node_modules:
   mongo_spaghe:
+networks:
+  spaghettinetwork:
+  nginx-proxy:
+    external: true

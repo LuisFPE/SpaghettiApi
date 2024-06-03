@@ -5,6 +5,12 @@ import userController from "../users/userController.js";
 const getAll = async()=> {
     try {
         const spaghettis = await spaghettiModel.find();
+        for (const spaghetti of spaghettis){
+            await spaghetti.populate({
+                path:"owner", 
+                select: { username:1, email:1, role:1 }
+            });  
+        }
         return spaghettis;
     } catch (error) {
         console.error(error);
@@ -14,6 +20,10 @@ const getAll = async()=> {
 const getById = async(id) =>{
     try {
         const spaghetti = await spaghettiModel.findById(id);
+        await spaghetti.populate({
+            path:"owner", 
+            select: { username:1, email:1, role:1 }
+        });
         if(!spaghetti){
             return null;
         }

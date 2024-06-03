@@ -5,7 +5,7 @@
     "description": "ENGLISH api for search, read and publish spaghetti recipes. To use all the ednpoints except login and register, it is necessary to authenticate with the token returned by the login like a bearer token. The endpoints of get user, get by property, create user, update user, delete user only work if the user's role is The authentication token belongs to admin, this role is only available to API developers. All spaghetti and ingredients endpoints also need to use the authentication token but these are available to users whose roles are user rather than the default role assigned in the register. /////////// ESPAÑOL api para buscar, leer y publicar recetas de espaguetis. Para utilizar todos los ednpoints excepto iniciar sesión y registrarse, es necesario autenticarse con el token devuelto por el inicio de sesión usandolo como Bearer Token. Los endpoints de obtener usuario, obtener propiedad, crear usuario, actualizar usuario, eliminar usuario solo funcionan si el rol del usuario al que le pertenece el token de autenticación es administrador, esta función solo está disponible para desarrolladores de la api. Todos los endpoints de espagueti e ingredientes también deben usar el token de autenticación usandolo como Bearer Token, pero están disponibles para los usuarios cuyos roles son usuario que es el rol predeterminado asignado en el registro.",
     "version": "1.0.0"
   },
-
+  "host": "spaghettiapi.luispadua.com",
   "basePath": "/api",
   "securityDefinitions": {
     "bearerAuth": {
@@ -228,7 +228,7 @@
     },
     "/login": {
       "post": {
-        "summary": "Login a user",
+        "summary": "Login a user (You can use username or gmail in the username field).",
         "tags": [
           "User"
         ],
@@ -583,6 +583,9 @@
         "password": {
           "type": "string"
         },
+        "passwordRepeat": {
+          "type": "string"
+        },
         "role": {
           "type": "string",
           "enum": [
@@ -595,7 +598,7 @@
     "Credentials": {
       "type": "object",
       "properties": {
-        "email": {
+        "username": {
           "type": "string"
         },
         "password": {
@@ -617,9 +620,6 @@
         "name": {
           "type": "string"
         },
-        "owner": {
-          "type": "string"
-        },
         "sauce": {
           "type": "string",
           "enum": [
@@ -633,12 +633,6 @@
         },
         "recipe": {
           "type": "string"
-        },
-        "ingredients": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },

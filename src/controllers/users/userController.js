@@ -5,6 +5,12 @@ import jwt from "jsonwebtoken";
 const getAll = async()=> {
     try {
         const users = await userModel.find();
+        for (const user of users){
+            await user.populate({
+                path:"spaghettis", 
+                select: { name:1, description:1}
+            });   
+        }
         return users;
     } catch (error) {
         console.error(error);
@@ -14,6 +20,10 @@ const getAll = async()=> {
 const getById = async(id) =>{
     try {
         const user = await userModel.findById(id);
+        await user.populate({
+            path:"spaghettis", 
+            select: { name:1, description:1}
+        });        
         return user;
     } catch (error) {
         console.error(error);
