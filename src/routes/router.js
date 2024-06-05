@@ -12,9 +12,7 @@ router.get("/",(req,res)=>{
     res.json({data:"hello api"});
 })
 
-
-
-router.use("/users",isAdmin,userRouter);
+router.use("/users",isAuthenticated,userRouter);
 router.use("/spaghettis",isAuthenticated,spaghettiRouter);
 router.use("/ingredients",isAuthenticated,ingredientRouter);
 router.use("/",authRouter);

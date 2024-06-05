@@ -11,6 +11,12 @@ const getById = async (req,res) =>{
     res.json({data:user});
 }
 
+const getByToken = async (req,res) =>{
+    const id = req.user._id;
+    const user = await userController.getById(id);
+    res.json({data:user});
+}
+
 const getByProperty=async(req,res)=>{
     const {property,value}=req.query;
     const users = await userController.getByProperty(property,value);
@@ -51,6 +57,7 @@ const remove = async(req,res)=>{
 export default{
     getAll,
     getById,
+    getByToken,
     getByProperty,
     login,
     register,
